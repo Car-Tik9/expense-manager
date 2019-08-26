@@ -1,6 +1,25 @@
 .dk-container{
     width: 100%;
-    max-width: 120rem;
+    max-width: 1240px;
+    padding: 0 20px;
     margin: 0 auto;
     text-align: center;
+}
+
+.dk-description{
+    margin: 12px 0;
+}
+.dk-description:first-child{
+    margin-top: 0;
+}
+.dk-description:last-child{
+    margin-bottom: 0;
+}
+
+.dk-flex{
+    display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: -webkit-flex;     /* NEW - Chrome */
+    display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
