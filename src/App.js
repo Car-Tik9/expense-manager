@@ -1,24 +1,21 @@
-import React from 'react';
-import './App.css';
+import React, { Component } from 'react';
+import Layout from './Layout/Layout';
+import './assets/styles/Common.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+	render() {
+		return(
+			<div>
+				<Layout>
+					<div className='dk-container'>
+						<h1>Heading</h1>
+					</div>
+				</Layout>
+			</div>
+		);
+	}
+
 }
 
 export default App;
