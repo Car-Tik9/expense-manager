@@ -26,3 +26,6 @@ header{
 .header-links{
     font-size: 24px;
 }
+.header-links a{
+    color: #000;
+}

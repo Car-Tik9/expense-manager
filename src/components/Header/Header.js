@@ -15,7 +15,9 @@ class Header extends Component {
                             EM
                         </div>
                         <div className='header-links'>
-                            <FontAwesomeIcon icon={faGithub} />
+                            <a href="https://gitlab.com/dileepreddyk/expense-manager.git" target="_blank" rel="noopener noreferrer">
+                                <FontAwesomeIcon icon={faGithub} />
+                            </a>
                         </div>
                     </div>
                 </div>
