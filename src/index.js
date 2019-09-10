@@ -2,10 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'normalize.css';
 import './index.css';
-import App from './App';
+import { Provider } from 'react-redux'
+import App from './components/App';
+import {store} from './helpers/store'
+
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 
 module.hot && module.hot.accept();
 
