@@ -1,12 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { Typography, TextField, Button, Grid, Link, Paper, InputAdornment, IconButton } from '@material-ui/core';
+import { Typography, TextField, Button, Grid, Link, Paper, InputAdornment, IconButton, InputLabel } from '@material-ui/core';
 import EmailIcon from '@material-ui/icons/Email'
 import PasswordIcon from '@material-ui/icons/VpnKey'
 
 import Image from '../images/login_four.jpg'
+import { login } from '../actions'
 
 const styles = theme  => console.log(theme) || ({
     '@global':{
@@ -33,27 +35,34 @@ const styles = theme  => console.log(theme) || ({
      submit:{
          margin:theme.spacing(3,0,2),
      },
+     errorString:{
+         textAlign:'center'
+     },
    });
 
 
 class SignIn extends React.Component{
+    state ={ 
+        username:'',
+        password:'',
+        submitted:false
+    };
     render(){
-        console.log(this.props);
         const { classes } = this.props;
         return(
             <Container component="main" maxWidth="xs">
                 <CssBaseline/>
                 <div className ={ classes.paper }>
-                    <Paper elevation="2"className = {classes.paperconatiner}>
+                    <Paper elevation={2} className = {classes.paperconatiner}>
                     <Typography component="h1" variant="h5" align="center">
                         Expense Manager
                     </Typography>
-                    <form className= {classes.form}>
-                        <TextField id="email"
+                    <form className= {classes.form} noValidate onSubmit={this.handleOnSubmit}>
+                        <TextField id="username"
                                 variant="outlined" 
                                 required fullWidth 
-                                label="Email Address"
-                                name = "email"
+                                label="User Name"
+                                name = "username"
                                 margin="normal"
                                 autoFocus
                                 InputProps ={{
@@ -65,6 +74,10 @@ class SignIn extends React.Component{
                                         </InputAdornment>
                                     )
                                 }}
+                                onChange = {event => this.setState({username:event.target.value})}
+                                value={this.state.username}
+                                error={this.state.submitted && this.state.username ===''}
+                                helperText="please input username"
                         />
                         <TextField id="password" 
                                 variant="outlined"
@@ -72,6 +85,7 @@ class SignIn extends React.Component{
                                 label="Password"
                                 name = "password"
                                 margin="normal"
+                                type="password"
                                 InputProps ={{
                                     endAdornment:(
                                         <InputAdornment>
@@ -81,7 +95,13 @@ class SignIn extends React.Component{
                                         </InputAdornment>
                                     )
                                 }}
+                                onChange = {event => this.setState({password:event.target.value})}
+                                value={this.state.password}
+                                error={this.state.submitted && this.state.password ===''}
+                                helperText="please input password"
                         />
+                        <InputLabel className={classes.errorString}
+                        error={true}>{this.props.errorMessage}</InputLabel>
                         <Button
                             type="submit"
                             fullWidth
@@ -107,6 +127,20 @@ class SignIn extends React.Component{
             </Container>
         );
     }
+    handleOnSubmit = event => {
+        event.preventDefault();
+        this.setState({submitted:true});
+        const { username, password } = this.state;
+        if (username && password) {
+            this.props.login(username, password);
+        }
+
+    }
 }
 
-export default withStyles(styles)(SignIn)
+function mapToState(state){
+    const errorMessage = state.authentication.errorMessage;
+    return {errorMessage};
+}
+
+export default withStyles(styles)(connect(mapToState,{login})(SignIn))

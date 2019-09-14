@@ -16,8 +16,7 @@ class App extends Component {
 		return(
 			<ThemeProvider theme={theme}>
 				<Router history ={history}>
-					{/* <Route exact path = "/"  render={() => <Dashboard></Dashboard>}></Route> */}
-					<Route exact path = "/"  render={() => <SignIn></SignIn>}></Route>
+					<Route exact path = "/"  render={() => <Dashboard></Dashboard>}></Route>
 					<Route exact path = "/signin"  render={() => <SignIn></SignIn>}></Route>
 					<Route exact path = "/signup"  render={() => <SignUp></SignUp>}></Route>
 				</Router>
