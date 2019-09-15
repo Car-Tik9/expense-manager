@@ -34,6 +34,18 @@ const styles = theme  => ({
    });
 
 class SignUp extends React.Component{
+    state = {
+        firstName : '',
+        lastName : '',
+        userName:'',
+        email :'',
+        password: '',
+        submitted:false
+    }
+    handleOnSubmit= event =>{
+        event.preventDefault();
+        this.setState({submitted:true})
+    }
     render(){
         const { classes } = this.props;
         return(
@@ -44,7 +56,7 @@ class SignUp extends React.Component{
                     <Typography component="h1" variant="h5" align="center">
                         Sign up
                     </Typography>
-                    <form className ={classes.form} noValidate>
+                    <form className ={classes.form} noValidate onSubmit={this.handleOnSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
@@ -55,6 +67,9 @@ class SignUp extends React.Component{
                                     fullWidth
                                     id="firstName"
                                     label="First Name"
+                                    value ={this.state.firstName}
+                                    onChange ={event => this.setState({firstName:event.target.value})}
+                                    error = {this.state.submitted && this.state.firstName===''}
                                     autoFocus
                                 />
                             </Grid>
@@ -67,6 +82,9 @@ class SignUp extends React.Component{
                                     id="lastName"
                                     label="Last Name"
                                     autoComplete="lname"
+                                    value ={this.state.lastName}
+                                    onChange ={event => this.setState({lastName:event.target.value})}
+                                    error = {this.state.submitted && this.state.lastName===''}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -77,6 +95,9 @@ class SignUp extends React.Component{
                                     fullWidth
                                     id="userName"
                                     label="User Name"
+                                    value ={this.state.userName}
+                                    onChange ={event => this.setState({userName:event.target.value})}
+                                    error = {this.state.submitted && this.state.userName===''}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -88,6 +109,9 @@ class SignUp extends React.Component{
                                     id="email"
                                     label="Email Address"
                                     autoComplete="email"
+                                    value ={this.state.email}
+                                    onChange ={event => this.setState({email:event.target.value})}
+                                    error = {this.state.submitted && this.state.email===''}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -98,7 +122,10 @@ class SignUp extends React.Component{
                                     fullWidth
                                     id="password"
                                     label="Password"
-                                    autoComplete="email"
+                                    autoComplete="password"
+                                    value ={this.state.password}
+                                    onChange ={event => this.setState({password:event.target.value})}
+                                    error = {this.state.submitted && this.state.password===''}
                                 />
                             </Grid>
                         </Grid>
