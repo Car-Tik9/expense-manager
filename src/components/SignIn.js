@@ -10,7 +10,7 @@ import PasswordIcon from '@material-ui/icons/VpnKey'
 import Image from '../images/login_four.jpg'
 import { login } from '../actions'
 
-const styles = theme  => console.log(theme) || ({
+const styles = theme  => ({
     '@global':{
          body:{
             backgroundColor:theme.palette.common.white,
@@ -116,9 +116,9 @@ class SignIn extends React.Component{
                                 </Link>
                             </Grid> 
                             <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link href="/signup" variant="body2">
                                    Sign Up ?
-                                </Link>
+                            </Link>
                             </Grid>
                         </Grid>
                     </form>
