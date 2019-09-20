@@ -1,8 +1,10 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Container, CssBaseline, Typography, Grid, TextField, Paper, Button, Link } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 
-import Image from '../images/sign_up.jpg'
+import Image from '../images/sign_up.jpg';
+import { register } from '../actions';
 
 const styles = theme  => ({
     '@global':{
@@ -35,18 +37,32 @@ const styles = theme  => ({
 
 class SignUp extends React.Component{
     state = {
-        firstName : '',
-        lastName : '',
+        name : '',
         userName:'',
         email :'',
         password: '',
         submitted:false
     }
+
+    handleOnChange = event => {
+        const {name,value} = event.target;
+        this.setState({[name]:value});
+    }
     handleOnSubmit= event =>{
         event.preventDefault();
         this.setState({submitted:true})
+        const {name, userName,email,password} =  this.state;
+        if(name  && userName && email && password){
+            const user = {};
+            user.name = name;
+            user.userName = userName;
+            user.email = email;
+            user.password = password;
+            this.props.register( user );
+        }
     }
     render(){
+        console.log(this.props)
         const { classes } = this.props;
         return(
             <Container component="main" maxWidth="xs">
@@ -58,33 +74,20 @@ class SignUp extends React.Component{
                     </Typography>
                     <form className ={classes.form} noValidate onSubmit={this.handleOnSubmit}>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12}>
                                 <TextField
-                                    autoComplete="fname"
-                                    name="firstName"
+                                    autoComplete="name"
+                                    name="name"
                                     variant="outlined"
                                     required
                                     fullWidth
-                                    id="firstName"
-                                    label="First Name"
-                                    value ={this.state.firstName}
-                                    onChange ={event => this.setState({firstName:event.target.value})}
-                                    error = {this.state.submitted && this.state.firstName===''}
+                                    id="name"
+                                    label="Name"
+                                    value ={this.state.name}
+                                    onChange ={this.handleOnChange}
+                                    error = { (this.state.submitted && this.state.name==='') || this.props.name !==undefined}
                                     autoFocus
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    name="lastName"
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    id="lastName"
-                                    label="Last Name"
-                                    autoComplete="lname"
-                                    value ={this.state.lastName}
-                                    onChange ={event => this.setState({lastName:event.target.value})}
-                                    error = {this.state.submitted && this.state.lastName===''}
+                                    helperText ={this.props.name}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -96,8 +99,9 @@ class SignUp extends React.Component{
                                     id="userName"
                                     label="User Name"
                                     value ={this.state.userName}
-                                    onChange ={event => this.setState({userName:event.target.value})}
-                                    error = {this.state.submitted && this.state.userName===''}
+                                    onChange ={this.handleOnChange}
+                                    error = {(this.state.submitted && this.state.userName==='') || this.props.userName !== undefined}
+                                    helperText ={this.props.userName}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -110,22 +114,25 @@ class SignUp extends React.Component{
                                     label="Email Address"
                                     autoComplete="email"
                                     value ={this.state.email}
-                                    onChange ={event => this.setState({email:event.target.value})}
-                                    error = {this.state.submitted && this.state.email===''}
+                                    onChange ={this.handleOnChange}
+                                    error = {(this.state.submitted && this.state.email==='') || this.props.email!==undefined}
+                                    helperText ={this.props.email}
                                 />
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
                                     name="password"
                                     variant="outlined"
+                                    type="password"
                                     required
                                     fullWidth
                                     id="password"
                                     label="Password"
                                     autoComplete="password"
                                     value ={this.state.password}
-                                    onChange ={event => this.setState({password:event.target.value})}
-                                    error = {this.state.submitted && this.state.password===''}
+                                    onChange ={this.handleOnChange}
+                                    error = {(this.state.submitted && this.state.password==='') || this.props.password !== undefined}
+                                    helperText ={this.props.password}
                                 />
                             </Grid>
                         </Grid>
@@ -150,4 +157,10 @@ class SignUp extends React.Component{
     }
 }
 
-export default withStyles(styles)(SignUp)
+
+function mapToState(state){
+    console.log(state);
+    const {errorData , registering }  = state.registration;
+    return {...errorData,registering};
+}
+export default withStyles(styles)(connect(mapToState ,{register})(SignUp))

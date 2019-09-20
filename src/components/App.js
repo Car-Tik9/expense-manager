@@ -9,6 +9,8 @@ import Dashboard from '../components/DashBoard'
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
 import { theme } from '../theme';
+import RouteWithLayout from './RouteWithLayout';
+import Main  from '../layouts/Main'
 
 
 class App extends Component {
@@ -16,7 +18,7 @@ class App extends Component {
 		return(
 			<ThemeProvider theme={theme}>
 				<Router history ={history}>
-					<Route exact path = "/"  render={() => <Dashboard></Dashboard>}></Route>
+					<RouteWithLayout exact path = "/"  layout={Main} component={Dashboard}/>
 					<Route exact path = "/signin"  render={() => <SignIn></SignIn>}></Route>
 					<Route exact path = "/signup"  render={() => <SignUp></SignUp>}></Route>
 				</Router>

@@ -15,3 +15,14 @@ export const login = (username,password) =>{
         );
     }
 }
+
+export const register = (user) => {
+    return dispatch => {
+        userService.register(user).then( user =>{
+            history.push('/signin');
+        },
+        error => {
+            dispatch({type:userConstants.REGISTER_FAILURE,error})
+        });
+    }
+} 
