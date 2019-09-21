@@ -1,9 +1,10 @@
 import React from 'react'
 import { Link as RouterLink } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, IconButton , Hidden} from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import clsx from 'clsx';
 import InputIcon from '@material-ui/icons/Input'
+import MenuIcon from '@material-ui/icons/Menu'
 
 
 
@@ -35,10 +36,19 @@ class Topbar extends React.Component{
                         </Typography>
                     </RouterLink>
                     <div className ={classes.flexGrow} />
-                        <IconButton className ={classes.signOutButton}
-                        color="inherit">
-                            <InputIcon></InputIcon>
-                        </IconButton>
+                        <Hidden mdDown>
+                            <IconButton className ={classes.signOutButton}
+                            color="inherit">
+                                <InputIcon></InputIcon>
+                            </IconButton>
+                        </Hidden>
+                        <Hidden lgUp>
+                            <IconButton className ={classes.signOutButton}
+                                color="inherit"
+                                onClick = {onSidebarOpen}>
+                                    <MenuIcon></MenuIcon>
+                            </IconButton>
+                        </Hidden>
                 </Toolbar>
             </AppBar>
         );

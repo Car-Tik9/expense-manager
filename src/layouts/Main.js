@@ -42,7 +42,7 @@ const Main = props =>{
             [classes.root] : true,
             [classes.shiftContent] : isDesktop
         })}>
-        <Topbar></Topbar>
+        <Topbar onSidebarOpen ={handleSidebarOpen}></Topbar>
         <SideBar onClose ={handleSidebarClose} 
         open={shouldOpenSidebar}
         variant = {isDesktop ? 'persistent' : 'temporary'}></SideBar>

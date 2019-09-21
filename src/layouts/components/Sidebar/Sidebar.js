@@ -7,6 +7,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 
 import Profile from './Profile'
 import SidebarNav from './SidebarNav';
+import DeveloperInfo from './DeveloperInfo';
 
 const styles = theme => ({
 
@@ -14,7 +15,7 @@ const styles = theme => ({
         width:240,
         [theme.breakpoints.up('lg')]:{
             marginTop :64,
-            height:'calc(100%-64px)'
+            height:'calc(100% - 64px)'
         }
     },
     root:{
@@ -29,13 +30,13 @@ const styles = theme => ({
     },
     nav :{
         marginBottom:theme.spacing(2)
-    }
+    },
 })
 
 const pages = [
     {
         title:'Dashboard',
-        href:'Dashboard',
+        href:'/dashboard',
         icon:<DashboardIcon/>
     },
     {
@@ -55,11 +56,12 @@ class Sidebar extends React.Component{
         console.log(this.props)
         return(
             <Drawer anchor="left" open ={open} variant ={variant} 
-            classes ={{ paper : classes.drawer} }>
+            classes ={{ paper : classes.drawer}} onClose ={onClose}>
                 <div className = {classes.root}>
                     <Profile></Profile>
                     <Divider className ={classes.divider}></Divider>
                     <SidebarNav className ={classes.nav} pages={pages}></SidebarNav>
+                    <DeveloperInfo></DeveloperInfo>
                 </div>
             </Drawer>
         );
