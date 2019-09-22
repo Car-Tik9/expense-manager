@@ -26,3 +26,9 @@ export const register = (user) => {
         });
     }
 } 
+
+export const logout = () =>{
+    userService.logout();
+    history.push('/signin');
+    return {type:userConstants.LOGIN_FAILURE,error:"Sucessfully logged out"};
+}

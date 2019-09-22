@@ -1,9 +1,9 @@
 import React from 'react'
 
 import { withStyles } from '@material-ui/styles'
-import { Grid, Typography } from '@material-ui/core';
-import AccountProfile from './Components/AccountProfile';
+import { Grid } from '@material-ui/core';
 import AccountDetails from './Components/AccountDetails';
+import AccountPassword from './Components/AccountPassword'
 
 const styles  = theme =>({
     root:{
@@ -20,7 +20,7 @@ class Account extends React.Component{
                         <AccountDetails></AccountDetails>
                     </Grid>
                     <Grid item lg={4} md={6} xl={4} xs={12}>
-                       <AccountProfile></AccountProfile>
+                       <AccountPassword></AccountPassword>
                     </Grid>
                 </Grid>           
             </div>

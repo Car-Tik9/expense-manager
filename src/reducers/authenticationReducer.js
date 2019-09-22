@@ -8,7 +8,7 @@ export function authentication( state = initialState ,action){
                 loggedIn:true,
                 user:action.user
             }
-            case "LOGIN_FAILURE":
+        case "LOGIN_FAILURE":
                 return {
                     errorMessage:action.error
                 }

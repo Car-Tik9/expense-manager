@@ -1,7 +1,8 @@
 import expenseMangerAPI from '../api/expenseManagerAPI'
 export const userService ={
     login,
-    register
+    register,
+    logout
 }
 const axiosConfig = {
     headers: {
@@ -24,6 +25,9 @@ function login(username ,password){
     }).catch(handleError)
 }
 
+function logout(){
+    localStorage.removeItem('user');
+}
 
 function register(user){
     return expenseMangerAPI.post('/auth/signup',user,axiosConfig)

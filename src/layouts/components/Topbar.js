@@ -5,6 +5,8 @@ import { withStyles } from '@material-ui/styles';
 import clsx from 'clsx';
 import InputIcon from '@material-ui/icons/Input'
 import MenuIcon from '@material-ui/icons/Menu'
+import { connect } from 'react-redux'
+import { logout } from './../../actions'
 
 
 
@@ -24,7 +26,9 @@ const styles = theme  => ({
       }
    });
 class Topbar extends React.Component{
+    
     render(){
+        console.log(this.props)
         const { classes,className, onSidebarOpen, ...rest} = this.props;
         return(
             <AppBar {...rest}
@@ -38,7 +42,7 @@ class Topbar extends React.Component{
                     <div className ={classes.flexGrow} />
                         <Hidden mdDown>
                             <IconButton className ={classes.signOutButton}
-                            color="inherit">
+                            color="inherit" onClick ={this.handleSignout}>
                                 <InputIcon></InputIcon>
                             </IconButton>
                         </Hidden>
@@ -53,6 +57,12 @@ class Topbar extends React.Component{
             </AppBar>
         );
     }
+    handleSignout = () => {
+        this.props.logout();
+    }
+}
+function mapToState(state){
+    return {};
 }
 
-export default withStyles(styles)(Topbar)
+export default withStyles(styles)(connect(mapToState,{logout})(Topbar))

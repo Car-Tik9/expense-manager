@@ -66,6 +66,15 @@ class AccountDetails extends React.Component{
                     variant="contained">
                         Save Details
                     </Button>
+                    <Button color ="primary"
+                        variant="outlined"
+                        component="label">
+                        Upload Photo
+                        <input
+                            type="file"
+                            style={{ display: "none" }}
+                        />
+                    </Button>
                 </CardActions>
             </Card>
         )

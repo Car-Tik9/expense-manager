@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route ,Redirect} from 'react-router-dom';
 
 class RouteWithLayout extends React.Component{
 
@@ -9,9 +9,9 @@ class RouteWithLayout extends React.Component{
         console.log(this.props);
         return(
             <Route {...rest}  render ={ matchProps => (
-                <Layout>
-                    <Component {...matchProps}/>
-                </Layout>
+                localStorage.getItem('user')
+                 ? <Layout><Component {...matchProps}/></Layout>
+                 : <Redirect to="/signin"></Redirect>
             )}/>
         );
     }

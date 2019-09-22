@@ -1,28 +1,8 @@
 import React from 'react'
 import { Card, CardContent, Typography, Avatar, Divider, CardActions, Button, CardHeader, TextField, Grid } from '@material-ui/core'
-import { withStyles } from '@material-ui/styles'
-const style = theme => ({
-    details :{
-        display:'flex'
-    },
-    avatar :{
-        marginLeft : 'auto',
-        height : 110,
-        width:100
-    },
-    cardTitle :{
-        color: "#FFFFFF",
-        marginTop: "0px",
-        minHeight: "auto",
-        fontWeight: "300",
-        fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-        marginBottom: "3px",
-        textDecoration: "none"
-    }
-})
-class AccountProfile extends React.Component{
+
+class AccountPassword extends React.Component{
     render(){
-        const { classes } = this.props;
         return(
             <Card>
                 <CardHeader title="Password" 
@@ -53,4 +33,4 @@ class AccountProfile extends React.Component{
     }    
 }
 
-export default withStyles(style)(AccountProfile)
+export default AccountPassword

@@ -13,6 +13,7 @@ import SignUp from '../components/SignUp';
 import { theme } from '../theme';
 import RouteWithLayout from './RouteWithLayout';
 import Main  from '../layouts/Main'
+import { CssBaseline } from '@material-ui/core';
 
 
 
@@ -20,6 +21,7 @@ class App extends Component {
 	render() {
 		return(
 			<ThemeProvider theme={theme}>
+				<CssBaseline></CssBaseline>
 				<Router history ={history}>
 					<Switch>
 						<Route exact path = "/signin"  render={() => <SignIn></SignIn>}></Route>
