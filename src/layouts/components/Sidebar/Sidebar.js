@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/styles';
 import  DashboardIcon from '@material-ui/icons/Dashboard'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import SettingsIcon from '@material-ui/icons/Settings';
+import ImportExportIcon from '@material-ui/icons/ImportExportTwoTone'
 
 import Profile from './Profile'
 import SidebarNav from './SidebarNav';
@@ -38,6 +39,11 @@ const pages = [
         title:'Dashboard',
         href:'/dashboard',
         icon:<DashboardIcon/>
+    },
+    {
+        title:'Import Data',
+        href:'/importdata',
+        icon:<ImportExportIcon/>
     },
     {
         title: 'Account',

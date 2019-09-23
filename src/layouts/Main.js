@@ -5,6 +5,7 @@ import clsx from 'clsx';
 
 import Topbar from './components/Topbar'
 import SideBar from  './components/Sidebar/Sidebar'
+import BottomFab from './components/BottomFab/BottomFab'
 const useStyles = makeStyles(theme => ({
     root: {
       paddingTop: 56,
@@ -15,6 +16,11 @@ const useStyles = makeStyles(theme => ({
     },
     shiftContent: {
       paddingLeft: 240
+    },
+    fab:{
+      position:'absolute',
+      bottom:theme.spacing(2),
+      right:theme.spacing(2),
     },
     content: {
       height: '100%'
@@ -48,6 +54,7 @@ const Main = props =>{
         variant = {isDesktop ? 'persistent' : 'temporary'}></SideBar>
         <main className ={classes.content}>
             {children}
+            <BottomFab></BottomFab>
         </main>
 
         </div>
