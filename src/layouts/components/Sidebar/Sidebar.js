@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/styles';
 import  DashboardIcon from '@material-ui/icons/Dashboard'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import SettingsIcon from '@material-ui/icons/Settings';
-import ImportExportIcon from '@material-ui/icons/ImportExportTwoTone'
+import CreditCardIcom from '@material-ui/icons/CreditCard'
 
 import Profile from './Profile'
 import SidebarNav from './SidebarNav';
@@ -41,9 +41,9 @@ const pages = [
         icon:<DashboardIcon/>
     },
     {
-        title:'Import Data',
+        title:'Expenses',
         href:'/importdata',
-        icon:<ImportExportIcon/>
+        icon:<CreditCardIcom/>
     },
     {
         title: 'Account',

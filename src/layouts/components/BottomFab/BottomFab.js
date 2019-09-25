@@ -24,7 +24,7 @@ class BottomFab extends React.Component{
         return(
             <div>
             <Tooltip title="Add Expense" placement="left" aria-label="add">
-                <Fab color="primary"  onClick ={()=> this.setState({dialogOpen:true})}aria-label="edit" className={classes.fab}>
+                <Fab color="secondary"  onClick ={()=> this.setState({dialogOpen:true})}aria-label="edit" className={classes.fab}>
                     <EditIcon /> 
                 </Fab>
           </Tooltip>
