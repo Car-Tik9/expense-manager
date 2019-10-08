@@ -10,12 +10,10 @@ const axiosConfig = {
         "Access-Control-Allow-Origin": "*",
     }
 };
-function login(username ,password){
+function login(username ,password){ 
     const data ={ 
         userNameOrEmail:username,
         password}
-    
-    
     return expenseMangerAPI.post('/auth/signin',data,axiosConfig)
     .then(response => {
         const userData = {username:"karthik",passoword:'password'};

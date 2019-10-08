@@ -1,6 +1,6 @@
 import React from 'react'
 import { Dialog, DialogTitle, DialogContentText, DialogContent, TextField, RadioGroup, FormControlLabel, Radio, DialogActions, Button, Paper, Chip, Avatar, InputAdornment, Select, Grid, InputLabel } from '@material-ui/core';
-import { KeyboardDatePicker ,MuiPickersUtilsProvider} from '@material-ui/pickers'
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns';
 import FoodIcon from '@material-ui/icons/Fastfood'
 import ShoppingIcon from '@material-ui/icons/ShoppingCart'
@@ -9,157 +9,208 @@ import EntertainmentIcon from '@material-ui/icons/Theaters'
 import HospitalIcon from '@material-ui/icons/LocalHospital'
 import CompareIcon from '@material-ui/icons/CompareArrows'
 import { withStyles } from '@material-ui/styles'
+import { connect } from 'react-redux'
+import { saveExpense } from '../../../actions/expenseActions'
 
 const chips = [
     {
-        label:'Food',
-        icon: <FoodIcon/>
+        label: 'Food',
+        id:1,
+        icon: <FoodIcon />
     },
     {
-        label:'Shopping',
-        icon: <ShoppingIcon/>
+        label: 'Shopping',
+        id:2,
+        icon: <ShoppingIcon />
     },
     {
-        label:'Travel',
-        icon: <TravelIcon/>
+        label: 'Travel',
+        id:3,
+        icon: <TravelIcon />
     },
     {
-        label:'Entertainment',
-        icon: <EntertainmentIcon/>
+        label: 'Entertainment',
+        id:4,
+        icon: <EntertainmentIcon />
     },
     {
-        label:'Medical',
-        icon: <HospitalIcon/>
+        label: 'Medical',
+        id:5,
+        icon: <HospitalIcon />
     },
     {
-        label:'Other',
-        icon: <EntertainmentIcon/>
+        label: 'Other',
+        id:6,
+        icon: <EntertainmentIcon />
     },
 ];
 
-const styles = theme =>({
-    paper:{
-        display:'flex',
-        justifyContent:'center',
-        flexWrap:'wrap',
+const styles = theme => ({
+    paper: {
+        display: 'flex',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
         padding: theme.spacing(0.5),
-        marginBottom:theme.spacing(1)
+        marginBottom: theme.spacing(1)
     },
-    chip:{
-        margin:theme.spacing(0.5)
+    chip: {
+        margin: theme.spacing(0.5)
     },
-    notes:{
-        margin:theme.spacing(2)
+    notes: {
+        margin: theme.spacing(2)
     }
 })
-class ExpenseDialog extends React.Component{
-    state ={
-        transactionType :'',
-        date: new Date(),
-        amount:'',
-        notes:'',
-        cdDiv:'',
-        isSubmitted:false
+class ExpenseDialog extends React.Component {
+    state = {
+        expense: {
+            transactionMode: '',
+            dateOfTransaction: new Date(),
+            transactionAmount : '',
+            notes: '',
+            cdDiv: '',
+            moneySendto: '',
+            categoryId: '',
+        },
+        isSubmitted: false
     }
-    handleChange = name => event =>{
-        this.setState({name:event.target.value})
+    handleChange = name => event => {
+        const { value } = event.target;
+        this.setState( previousState => ({
+            expense:{
+                ...previousState.expense,
+                [name]: value
+            }
+        }))
+    }
 
+    handleChipClick = label => event => {
+        this.setState( previousState => ({
+            expense:{
+                ...previousState.expense,
+                categoryId: label
+            }
+        }))
     }
-    render(){
-        const {dialogOpen ,dialogClose,classes,...rest} = this.props;
-        return(
-            <Dialog onClose ={dialogClose} open ={dialogOpen || this.state.dialogOpen} >
+
+    handleDateClick = dateOfTransaction  => {
+        console.log(typeof(dateOfTransaction))
+        this.setState( previousState => ({
+            expense:{
+                ...previousState.expense,
+                dateOfTransaction
+            }
+        }))
+    }
+
+    handleSubmit = () => {
+        const { expense } = this.state;
+        expense.dateOfTransaction = expense.dateOfTransaction.toLocaleDateString();
+        this.props.saveExpense(expense);
+    }
+    render() {
+        const { dialogOpen, dialogClose, classes, ...rest } = this.props;
+        return (
+            <Dialog onClose={dialogClose} open={dialogOpen || this.state.dialogOpen} >
                 <DialogTitle>Add an Expense</DialogTitle>
                 <DialogContent>
                     <DialogContentText>Choose category and add expense</DialogContentText>
-                        <Paper className ={classes.paper}>
-                           {chips.map(chip =>(
-                                <Chip avatar ={<Avatar>{chip.icon}</Avatar>}
-                                label = {chip.label} 
-                                clickable ={true}
-                                variant='outlined' className={classes.chip}
-                                color="secondary" ></Chip>
-                           ))}
-                        </Paper>
-                        <Grid container spacing={2}>
-                            <Grid xs ={12} sm={6} item>
-                                <RadioGroup row ={true}>
-                                    <FormControlLabel value="credit"
+                    <Paper className={classes.paper}>
+                        {chips.map(chip => (
+                            <Chip icon={chip.icon}
+                                label={chip.label}
+                                clickable={true}
+                                key={chip.id}
+                                className={classes.chip}
+                                color="secondary"
+                                onClick={this.handleChipClick(chip.id)}></Chip>
+                        ))}
+                    </Paper>
+                    <Grid container spacing={2}>
+                        <Grid xs={12} sm={6} item>
+                            <RadioGroup row={true} value = {this.state.expense.cdDiv}
+                            onClick={this.handleChange('cdDiv')}>
+                                <FormControlLabel value="1"
                                     label="Credit"
-                                    labelPlacement="end" 
-                                    control = {<Radio color="primary"></Radio>}>Credit</FormControlLabel>
-                                    <FormControlLabel value="debit"
+                                    labelPlacement="end"
+                                    control={<Radio color="primary"></Radio>}>Credit</FormControlLabel>
+                                <FormControlLabel value="0"
                                     label="Debit"
-                                    labelPlacement="end" 
-                                    control = {<Radio color="primary"></Radio>}>Debit</FormControlLabel>
-                                </RadioGroup>
-                            </Grid>
-                            <Grid xs ={12} sm={6}item>
-                                <InputLabel htmlFor="transaction-type">Transaction Type</InputLabel>
-                                <Select autoWidth={true} native
-                                    inputProps={{
-                                        name: 'age',
-                                        id: 'transaction-type',
-                                    }} value={this.state.transactionType}
-                                    onChange = {this.handleChange('transactionType')}>
-                                        <option value="imps">IMPS</option>
-                                        <option value="netbanking">NETBANKING</option>
-                                        <option value="up">UPI</option>
-                                        <option value="other">OTHER</option>
-                                </Select>
-                            </Grid>
-                            <Grid xs ={12} sm={6} item>
-                                    <TextField
-                                    fullWidth
-                                    margin="dense"
-                                    id="amount"
-                                    label="Amount"
-                                    variant="outlined"
-                                    InputProps ={{
-                                        startAdornment:(
-                                            <InputAdornment>
-                                                    ₹
-                                            </InputAdornment>
-                                        )
-                                    }}
-                                />
-                            </Grid>
-                            <Grid xs ={12} sm={6} item>
-                                <TextField fullWidth
+                                    labelPlacement="end"
+                                    control={<Radio color="primary"></Radio>}>Debit</FormControlLabel>
+                            </RadioGroup>
+                        </Grid>
+                        <Grid xs={12} sm={6} item>
+                            <InputLabel htmlFor="transaction-type">Transaction Type</InputLabel>
+                            <Select autoWidth={true} native
+                                inputProps={{
+                                    name: 'age',
+                                    id: 'transaction-type',
+                                }} value={this.state.expense.transactionMode}
+                                onChange={this.handleChange('transactionMode')}>
+                                <option value="0">IMPS</option>
+                                <option value="1">NETBANKING</option>
+                                <option value="2">UPI</option>
+                                <option value="3">CASH</option>
+                                <option value="4">OTHER</option>
+                            </Select>
+                        </Grid>
+                        <Grid xs={12} sm={6} item>
+                            <TextField
+                                fullWidth
                                 margin="dense"
-                                label="Sent/Received Details"
-                                id="narration_details"
+                                id="amount"
+                                label="Amount"
                                 variant="outlined"
-                                InputProps ={{
-                                    startAdornment:(
+                                value={this.state.expense.amount}
+                                InputProps={{
+                                    startAdornment: (
                                         <InputAdornment>
-                                               <CompareIcon/> 
+                                            ₹
                                         </InputAdornment>
                                     )
                                 }}
-                                />
-                            </Grid>
-                            <Grid xs ={12} sm={6} item>
-                                    <MuiPickersUtilsProvider utils ={DateFnsUtils}>
-                                        <KeyboardDatePicker
-                                            format="MM/dd/yyyy"
-                                            margin="normal"
-                                            id="date"
-                                            label="Date of Expense Done"
-                                            value={this.state.date}
-                                            onChange={ date => this.setState({date})}
-                                        />
-                                    </MuiPickersUtilsProvider>
-                            </Grid>
-                            <Grid xs ={12} sm={6} item>
-                                <TextField className={classes.notes}
-                                    label="Notes"
-                                />
-                            </Grid>
+                                onChange={this.handleChange('transactionAmount')}
+                            />
                         </Grid>
+                        <Grid xs={12} sm={6} item>
+                            <TextField fullWidth
+                                margin="dense"
+                                label="Sent/Received Details"
+                                id="send_details"
+                                variant="outlined"
+                                value={this.state.expense.moneySendto}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment>
+                                            <CompareIcon />
+                                        </InputAdornment>
+                                    )
+                                }}
+                                onChange={this.handleChange('moneySendto')}
+                            />
+                        </Grid>
+                        <Grid xs={12} sm={6} item>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <KeyboardDatePicker
+                                    format="dd/MM/yyyy"
+                                    margin="normal"
+                                    id="date"
+                                    label="Date of Expense Done"
+                                    value={this.state.expense.dateOfTransaction}
+                                    onChange={this.handleDateClick}
+                                />
+                            </MuiPickersUtilsProvider>
+                        </Grid>
+                        <Grid xs={12} sm={6} item>
+                            <TextField className={classes.notes}
+                                value={this.state.expense.notes}
+                                label="Notes" onChange={this.handleChange('notes')}
+                            />
+                        </Grid>
+                    </Grid>
                 </DialogContent>
                 <DialogActions>
-                    <Button color="primary" variant="contained">Ok</Button>
+                    <Button color="primary" variant="contained" onClick={this.handleSubmit}>Ok</Button>
                     <Button variant="outlined" onClick={dialogClose}>Cancel</Button>
                 </DialogActions>
             </Dialog>
@@ -167,4 +218,8 @@ class ExpenseDialog extends React.Component{
     }
 }
 
-export default withStyles(styles)(ExpenseDialog)
+function mapToState(state){
+    return state;
+}
+
+export default withStyles(styles)(connect(mapToState,{saveExpense})(ExpenseDialog))

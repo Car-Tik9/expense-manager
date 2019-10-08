@@ -59,7 +59,6 @@ const pages = [
 class Sidebar extends React.Component{
     render(){
         const {open , variant , onClose ,className,classes,...rest} = this.props;
-        console.log(this.props)
         return(
             <Drawer anchor="left" open ={open} variant ={variant} 
             classes ={{ paper : classes.drawer}} onClose ={onClose}>

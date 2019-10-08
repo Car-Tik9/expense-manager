@@ -16,7 +16,7 @@ export default {
     contrastText: white,
     dark: colors.teal[600],
     main: colors.teal[600],
-    light: colors.teal[600]
+    light: colors.teal[300]
   },
   success: {
     contrastText: white,

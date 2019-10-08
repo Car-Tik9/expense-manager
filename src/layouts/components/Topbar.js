@@ -28,7 +28,6 @@ const styles = theme  => ({
 class Topbar extends React.Component{
     
     render(){
-        console.log(this.props)
         const { classes,className, onSidebarOpen, ...rest} = this.props;
         return(
             <AppBar {...rest}

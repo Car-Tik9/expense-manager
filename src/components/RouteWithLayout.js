@@ -6,7 +6,6 @@ class RouteWithLayout extends React.Component{
     
     render(){
         const { layout:Layout ,component:Component,...rest} = this.props;
-        console.log(this.props);
         return(
             <Route {...rest}  render ={ matchProps => (
                 localStorage.getItem('user')
