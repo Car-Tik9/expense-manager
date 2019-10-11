@@ -19,6 +19,7 @@ const axiosConfig = {
 };
 
 function  saveExpense(expense){
+    expense.transactionDate = expense.dateOfTransaction.toLocaleDateString();
     if(localStorage.getItem('user')){
         return expenseMangerAPI.post('/saveexpense',expense,axiosConfig)
     }else{

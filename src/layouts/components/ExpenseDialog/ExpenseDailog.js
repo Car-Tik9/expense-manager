@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dialog, DialogTitle, DialogContentText, DialogContent, TextField, RadioGroup, FormControlLabel, Radio, DialogActions, Button, Paper, Chip, Avatar, InputAdornment, Select, Grid, InputLabel } from '@material-ui/core';
+import { Dialog, DialogTitle, DialogContentText, DialogContent, TextField, RadioGroup, FormControlLabel, Radio, DialogActions, Button, Paper, Chip, Avatar, InputAdornment, Select, Grid, InputLabel, colors } from '@material-ui/core';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns';
 import FoodIcon from '@material-ui/icons/Fastfood'
@@ -11,6 +11,7 @@ import CompareIcon from '@material-ui/icons/CompareArrows'
 import { withStyles } from '@material-ui/styles'
 import { connect } from 'react-redux'
 import { saveExpense } from '../../../actions/expenseActions'
+import { red } from '@material-ui/core/colors';
 
 const chips = [
     {
@@ -54,7 +55,10 @@ const styles = theme => ({
         marginBottom: theme.spacing(1)
     },
     chip: {
-        margin: theme.spacing(0.5)
+        margin: theme.spacing(0.5),
+    },
+    chip_active: {
+        backgroundColor: "#00695C"
     },
     notes: {
         margin: theme.spacing(2)
@@ -63,11 +67,11 @@ const styles = theme => ({
 class ExpenseDialog extends React.Component {
     state = {
         expense: {
-            transactionMode: '',
+            transactionMode: '0',
             dateOfTransaction: new Date(),
-            transactionAmount : '',
+            transactionAmount : '0',
             notes: '',
-            cdDiv: '',
+            cdDiv: '1',
             moneySendto: '',
             categoryId: '',
         },
@@ -83,17 +87,17 @@ class ExpenseDialog extends React.Component {
         }))
     }
 
-    handleChipClick = label => event => {
+    handleChipClick = categoryId => event => {
         this.setState( previousState => ({
             expense:{
                 ...previousState.expense,
-                categoryId: label
+                categoryId
             }
         }))
     }
 
     handleDateClick = dateOfTransaction  => {
-        console.log(typeof(dateOfTransaction))
+        console.log(dateOfTransaction)
         this.setState( previousState => ({
             expense:{
                 ...previousState.expense,
@@ -103,11 +107,24 @@ class ExpenseDialog extends React.Component {
     }
 
     handleSubmit = () => {
+        this.setState({isSubmitted:true})
+        if( !this.canbeSubmitted()){
+            return;
+        }
         const { expense } = this.state;
-        expense.dateOfTransaction = expense.dateOfTransaction.toLocaleDateString();
         this.props.saveExpense(expense);
     }
+
+    canbeSubmitted(){
+        const { expense } = this.state; 
+        return (
+            expense.transactionAmount !== '0' &&
+            expense.categoryId !== '' &&
+            expense.moneySendto !== '' 
+        );
+    }
     render() {
+        console.log(this.state)
         const { dialogOpen, dialogClose, classes, ...rest } = this.props;
         return (
             <Dialog onClose={dialogClose} open={dialogOpen || this.state.dialogOpen} >
@@ -120,11 +137,14 @@ class ExpenseDialog extends React.Component {
                                 label={chip.label}
                                 clickable={true}
                                 key={chip.id}
-                                className={classes.chip}
+                                className={`${classes.chip} ${this.state.expense.categoryId === chip.id  && classes.chip_active}`}
                                 color="secondary"
                                 onClick={this.handleChipClick(chip.id)}></Chip>
                         ))}
                     </Paper>
+                    <InputLabel 
+                                error={true}>{this.state.isSubmitted && 
+                                 this.state.expense.categoryId ==='' && 'Please select category'}</InputLabel>
                     <Grid container spacing={2}>
                         <Grid xs={12} sm={6} item>
                             <RadioGroup row={true} value = {this.state.expense.cdDiv}
@@ -161,7 +181,10 @@ class ExpenseDialog extends React.Component {
                                 id="amount"
                                 label="Amount"
                                 variant="outlined"
-                                value={this.state.expense.amount}
+                                value={this.state.expense.transactionAmount}
+                                error={this.state.isSubmitted && this.state.expense.transactionAmount ==='0'}
+                                helperText= {this.state.isSubmitted && this.state.expense.transactionAmount ==='0'
+                                && "please input expense amount"}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment>
@@ -186,15 +209,18 @@ class ExpenseDialog extends React.Component {
                                         </InputAdornment>
                                     )
                                 }}
+                                error={this.state.isSubmitted && this.state.expense.moneySendto ===''}
+                                helperText= { this.state.isSubmitted && this.state.expense.moneySendto ==='' 
+                                && 'Please Mention about  sent/received details '} 
                                 onChange={this.handleChange('moneySendto')}
                             />
                         </Grid>
                         <Grid xs={12} sm={6} item>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <KeyboardDatePicker
-                                    format="dd/MM/yyyy"
                                     margin="normal"
                                     id="date"
+                                    format="MM/dd/yyyy"
                                     label="Date of Expense Done"
                                     value={this.state.expense.dateOfTransaction}
                                     onChange={this.handleDateClick}
