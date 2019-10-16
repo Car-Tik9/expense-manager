@@ -10,8 +10,7 @@ import HospitalIcon from '@material-ui/icons/LocalHospital'
 import CompareIcon from '@material-ui/icons/CompareArrows'
 import { withStyles } from '@material-ui/styles'
 import { connect } from 'react-redux'
-import { saveExpense } from '../../../actions/expenseActions'
-import { red } from '@material-ui/core/colors';
+import { saveExpense , closeExpenseDialog } from '../../../actions/expenseActions'
 
 const chips = [
     {
@@ -69,7 +68,7 @@ class ExpenseDialog extends React.Component {
         expense: {
             transactionMode: '0',
             dateOfTransaction: new Date(),
-            transactionAmount : '0',
+            transactionAmount : '',
             notes: '',
             cdDiv: '1',
             moneySendto: '',
@@ -123,11 +122,14 @@ class ExpenseDialog extends React.Component {
             expense.moneySendto !== '' 
         );
     }
+
+    handleDialogClose = () => {
+        this.props.closeExpenseDialog();
+    }
     render() {
-        console.log(this.state)
         const { dialogOpen, dialogClose, classes, ...rest } = this.props;
         return (
-            <Dialog onClose={dialogClose} open={dialogOpen || this.state.dialogOpen} >
+            <Dialog onClose={this.handleDialogClose} open={dialogOpen} >
                 <DialogTitle>Add an Expense</DialogTitle>
                 <DialogContent>
                     <DialogContentText>Choose category and add expense</DialogContentText>
@@ -181,6 +183,7 @@ class ExpenseDialog extends React.Component {
                                 id="amount"
                                 label="Amount"
                                 variant="outlined"
+                                type="number"
                                 value={this.state.expense.transactionAmount}
                                 error={this.state.isSubmitted && this.state.expense.transactionAmount ==='0'}
                                 helperText= {this.state.isSubmitted && this.state.expense.transactionAmount ==='0'
@@ -236,8 +239,9 @@ class ExpenseDialog extends React.Component {
                     </Grid>
                 </DialogContent>
                 <DialogActions>
+                    <InputLabel error ={true}> {this.props.expenseError} </InputLabel>
                     <Button color="primary" variant="contained" onClick={this.handleSubmit}>Ok</Button>
-                    <Button variant="outlined" onClick={dialogClose}>Cancel</Button>
+                    <Button variant="outlined" onClick={this.handleDialogClose}>Cancel</Button>
                 </DialogActions>
             </Dialog>
         );
@@ -245,7 +249,8 @@ class ExpenseDialog extends React.Component {
 }
 
 function mapToState(state){
-    return state;
+    const dialogOpen = state.expense.dialogOpen
+    return { dialogOpen };
 }
 
-export default withStyles(styles)(connect(mapToState,{saveExpense})(ExpenseDialog))
+export default withStyles(styles)(connect(mapToState,{saveExpense , closeExpenseDialog})(ExpenseDialog))
