@@ -42,7 +42,7 @@ const pages = [
     },
     {
         title:'Expenses',
-        href:'/importdata',
+        href:'/expenses',
         icon:<CreditCardIcom/>
     },
     {

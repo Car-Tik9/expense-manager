@@ -16,7 +16,7 @@ function login(username ,password){
         password}
     return expenseMangerAPI.post('/auth/signin',data,axiosConfig)
     .then(response => {
-        const userData = {username:"karthik",passoword:'password'};
+        const userData = {username:username};
         const responseToken = response.data
         const user = {...responseToken,...userData};
         localStorage.setItem('user',JSON.stringify(user));

@@ -6,3 +6,9 @@ export function displaySnackBar(variant,message){
         message
     }
 }
+
+export function closeSnackBar(){
+    return{
+        type:userConstants.CLOSE_SNACKBAR
+    }
+}

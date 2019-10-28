@@ -23,6 +23,16 @@ export const saveExpense = (expense) =>{
     function failure(error) { return { type: userConstants.EXPENSE_ERROR, error } }
 }
 
+export const getExpenses = () =>{
+    return dispatch => {
+        expenseService.getExpenses().then( response => {
+        dispatch({type:userConstants.EXPENSE_DATA_FROM,data:response})
+        }, error => {
+            console.log(error)
+        })
+    }
+}
+
 export function openExpenseDialog (){
     return {
         type: userConstants.OPEN_EXPENSE_DIALOG

@@ -63,19 +63,20 @@ const styles = theme => ({
         margin: theme.spacing(2)
     }
 })
-class ExpenseDialog extends React.Component {
-    state = {
-        expense: {
-            transactionMode: '0',
+const initialState = {
+    isSubmitted: false,
+    expense: {
+            transactionMode: '1',
             dateOfTransaction: new Date(),
             transactionAmount : '',
             notes: '',
             cdDiv: '1',
             moneySendto: '',
             categoryId: '',
-        },
-        isSubmitted: false
     }
+}
+class ExpenseDialog extends React.Component {
+    state = initialState;
     handleChange = name => event => {
         const { value } = event.target;
         this.setState( previousState => ({
@@ -112,12 +113,13 @@ class ExpenseDialog extends React.Component {
         }
         const { expense } = this.state;
         this.props.saveExpense(expense);
+        this.setState(initialState)
     }
 
     canbeSubmitted(){
         const { expense } = this.state; 
         return (
-            expense.transactionAmount !== '0' &&
+            expense.transactionAmount !== '' &&
             expense.categoryId !== '' &&
             expense.moneySendto !== '' 
         );
@@ -150,7 +152,7 @@ class ExpenseDialog extends React.Component {
                     <Grid container spacing={2}>
                         <Grid xs={12} sm={6} item>
                             <RadioGroup row={true} value = {this.state.expense.cdDiv}
-                            onClick={this.handleChange('cdDiv')}>
+                            onChange={this.handleChange('cdDiv')}>
                                 <FormControlLabel value="1"
                                     label="Credit"
                                     labelPlacement="end"
@@ -169,11 +171,12 @@ class ExpenseDialog extends React.Component {
                                     id: 'transaction-type',
                                 }} value={this.state.expense.transactionMode}
                                 onChange={this.handleChange('transactionMode')}>
-                                <option value="0">IMPS</option>
-                                <option value="1">NETBANKING</option>
-                                <option value="2">UPI</option>
-                                <option value="3">CASH</option>
-                                <option value="4">OTHER</option>
+                                <option value="1">IMPS</option>
+                                <option value="2">NETBANKING</option>
+                                <option value="3">UPI</option>
+                                <option value="4">NEFT</option>
+                                <option value="5">CASH</option>
+                                <option value="6">OTHER</option>
                             </Select>
                         </Grid>
                         <Grid xs={12} sm={6} item>
@@ -185,8 +188,8 @@ class ExpenseDialog extends React.Component {
                                 variant="outlined"
                                 type="number"
                                 value={this.state.expense.transactionAmount}
-                                error={this.state.isSubmitted && this.state.expense.transactionAmount ==='0'}
-                                helperText= {this.state.isSubmitted && this.state.expense.transactionAmount ==='0'
+                                error={this.state.isSubmitted && this.state.expense.transactionAmount ===''}
+                                helperText= {this.state.isSubmitted && this.state.expense.transactionAmount ===''
                                 && "please input expense amount"}
                                 InputProps={{
                                     startAdornment: (

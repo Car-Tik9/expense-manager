@@ -61,7 +61,8 @@ class Topbar extends React.Component{
     }
 }
 function mapToState(state){
-    return {};
+    return state;
 }
 
-export default withStyles(styles)(connect(mapToState,{logout})(Topbar))
+export default withStyles(styles)(Topbar)
+// export default withStyles(styles)(connect(mapToState,{logout})(Topbar))

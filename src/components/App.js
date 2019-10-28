@@ -14,7 +14,7 @@ import { theme } from '../theme';
 import RouteWithLayout from './RouteWithLayout';
 import Main  from '../layouts/Main'
 import { CssBaseline } from '@material-ui/core';
-import ImportData from './ImportData/ImportData';
+import Expenses from './Expenses/Expenses';
 
 
 
@@ -30,7 +30,7 @@ class App extends Component {
 						<RouteWithLayout exact path = "/dashboard"  layout={Main} component={Dashboard}/>
 						<RouteWithLayout exact path = "/settings"  layout={Main} component={Settings}/>
 						<RouteWithLayout exact path = "/account"  layout={Main} component={Account}/>
-						<RouteWithLayout exact path = "/importdata"  layout={Main} component={ImportData}/>
+						<RouteWithLayout exact path = "/expenses"  layout={Main} component={Expenses}/>
 						<Redirect exact from = "/"  to="/dashboard"/>
 					</Switch>
 				</Router>

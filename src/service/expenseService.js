@@ -1,6 +1,8 @@
 import expenseMangerAPI from '../api/expenseManagerAPI'
+import expenseManagerAPI from '../api/expenseManagerAPI';
 export const expenseService = {
-    saveExpense
+    saveExpense,
+    getExpenses
 }
 
 
@@ -25,6 +27,12 @@ function saveExpense(expense) {
     }).catch(handleErrorCodes);
 }
 
+
+function getExpenses(){ 
+    return expenseManagerAPI.post('/getExpenses',{},axiosConfig).then(response => {
+        return response.data;
+    }).catch(); 
+}
 function handleErrorCodes(errrorResponse) {
     const errorData = errrorResponse.response && errrorResponse.response.data;
     if (errrorResponse.response.status === 400) {
