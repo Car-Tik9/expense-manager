@@ -18,7 +18,7 @@ class DeveloperInfo extends React.Component{
         return(
             <div className ={classes.root}>
                 <div className ={classes.content}>
-                    <Typography>Developed by Karthik and Dileep</Typography>
+                    <Typography>Developed by Pranay</Typography>
                 </div>
             </div>
         )

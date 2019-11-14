@@ -1,5 +1,5 @@
 import { userConstants } from '../constants'
-const initialstate = { dialogOpen: false , expenseError : '',expenses: []}
+const initialstate = { dialogOpen: false , expenseError : '',expenses: { content:[] ,page:0,totalElements:0}}
 export function expense(state = initialstate, action) {
     switch (action.type) {
         case userConstants.OPEN_EXPENSE_DIALOG:
