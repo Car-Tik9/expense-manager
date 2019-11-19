@@ -64,5 +64,5 @@ function mapToState(state){
     return state;
 }
 
-export default withStyles(styles)(Topbar)
-// export default withStyles(styles)(connect(mapToState,{logout})(Topbar))
+//export default withStyles(styles)(Topbar)
+ export default withStyles(styles)(connect(mapToState,{logout})(Topbar))
