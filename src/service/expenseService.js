@@ -28,8 +28,8 @@ function saveExpense(expense) {
 }
 
 
-function getExpenses(){ 
-    return expenseManagerAPI.post('/getExpenses',{},axiosConfig).then(response => {
+function getExpenses(page,rowsPerPage){ 
+    return expenseManagerAPI.post('/getExpenses',{"page":page,"size":rowsPerPage},axiosConfig).then(response => {
         return response.data;
     }).catch(); 
 }
