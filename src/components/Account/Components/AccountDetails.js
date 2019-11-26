@@ -10,6 +10,33 @@ const style  = theme =>({
     },
 });
 class AccountDetails extends React.Component{
+   constructor(){
+        super();
+        this.state = {
+            avatar_Alt : '',
+			avatar_Src: '',
+			fileName: ''
+        }
+   }
+
+   handleChangeFile = (e) => {
+
+		//FileName
+		this.setState({
+			fileName: e.target.files[0].name
+		})
+		
+		//File URL using FileReader API
+	   	const fileReader = new FileReader();
+		fileReader.onload = (e) => {
+			this.setState({
+				avatar_Src: e.target.result
+			})
+		}
+
+		fileReader.readAsDataURL(e.target.files[0]);
+   }
+    
     render(){
         const { classes } = this.props;
         return(
@@ -23,7 +50,7 @@ class AccountDetails extends React.Component{
                 }
                 subheader ="Check and update the corresponding details"
                 avatar = {
-                    <Avatar className ={classes.avatar}>
+                    <Avatar className ={classes.avatar} alt={this.state.avatar_Alt} src={this.state.avatar_Src}>
 
                     </Avatar>
                 }>
@@ -68,7 +95,8 @@ class AccountDetails extends React.Component{
                     </Button>
                     <Button color ="primary"
                         variant="outlined"
-                        component="label">
+                        component="label"
+						onChange={this.handleChangeFile}>
                         Upload Photo
                         <input
                             type="file"

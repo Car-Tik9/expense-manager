@@ -7,7 +7,7 @@ import '../assets/styles/Common.css';
 import {history} from '../helpers'
 import Dashboard from '../components/DashBoard'
 import Settings from '../components/Settings'
-import Account from '../components/Account'
+import Account from './Account'
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
 import { theme } from '../theme';
