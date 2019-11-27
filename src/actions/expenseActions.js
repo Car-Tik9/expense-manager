@@ -23,9 +23,9 @@ export const saveExpense = (expense) =>{
     function failure(error) { return { type: userConstants.EXPENSE_ERROR, error } }
 }
 
-export const getExpenses = () =>{
+export const getExpenses = (page,rowsPerPage) =>{
     return dispatch => {
-        expenseService.getExpenses().then( response => {
+        expenseService.getExpenses(page,rowsPerPage).then( response => {
         dispatch({type:userConstants.EXPENSE_DATA_FROM,data:response})
         }, error => {
             console.log(error)

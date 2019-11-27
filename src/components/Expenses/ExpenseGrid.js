@@ -13,14 +13,19 @@ import {
   TablePagination
 } from "@material-ui/core";
 import FoodIcon from "@material-ui/icons/Fastfood";
-import PerfecrSlider from "react-perfect-scrollbar";
+import ShoppingIcon from '@material-ui/icons/ShoppingCart'
+import TravelIcon from '@material-ui/icons/CardTravel'
+import EntertainmentIcon from '@material-ui/icons/Theaters'
+import HospitalIcon from '@material-ui/icons/LocalHospital'
+import AddCircleIcon from '@material-ui/icons/AddCircle'
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 import { getExpenses } from "../../actions/expenseActions";
 import { authentication } from "../../reducers/authenticationReducer";
 const styles = theme => ({
   root: {
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
+    width:"800px"
   },
   card: {
     padding: theme.spacing(1)
@@ -33,9 +38,19 @@ const styles = theme => ({
     overflow: "auto"
   }
 });
+
+const categoryIcon = {
+  FOOD:<FoodIcon></FoodIcon>,
+  SHOPPING :<ShoppingIcon></ShoppingIcon>,
+  TRAVEL : <TravelIcon></TravelIcon>,
+  ENTERTAINMENT : <EntertainmentIcon></EntertainmentIcon>,
+  MEDICAL : <HospitalIcon></HospitalIcon>,
+  OTHER : <AddCircleIcon></AddCircleIcon>
+};
 class ExpenseGrid extends React.Component {
+  state = { page:0,rowsPerPage : 10}
   componentDidMount() {
-    this.props.getExpenses();
+    this.props.getExpenses(0,this.state.rowsPerPage);
   }
   render() {
     const { classes, expenseData } = this.props;
@@ -61,14 +76,13 @@ class ExpenseGrid extends React.Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {expenseData.content
-                .slice(expenseData.page * 10,
-                  expenseData.page  * 10 + 10).map(expense => (
+                {expenseData.content.map(expense => (
                   <TableRow hover key={expense.transactionId}>
                     <TableCell>{expense.date}</TableCell>
                     <TableCell>{expense.amount}</TableCell>
                     <TableCell>{expense.mode}</TableCell>
                     <TableCell>{expense.notes}</TableCell>
+                    <TableCell>{categoryIcon[expense.category]}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -76,9 +90,9 @@ class ExpenseGrid extends React.Component {
           </div>
           <TablePagination
             component="div"
-            rowsPerPageOptions={[10]}
+            rowsPerPageOptions={[5, 10, 25,50,100]}
             count={expenseData.totalElements}
-            rowsPerPage={10}
+            rowsPerPage={this.state.rowsPerPage}
             page={expenseData.page}
             backIconButtonProps={{
               "aria-label": "previous page"
@@ -95,13 +109,14 @@ class ExpenseGrid extends React.Component {
   }
 
   handleChangePage = (event,page) => {
-    console.log(page);
+    this.props.getExpenses(page,this.state.rowsPerPage);
+    this.setState({page});
   };
 
   handleChangeRowsPerPage = event => {
-    const rowsPerPage =  parseInt(event.target.value) || 5;
-    console.log(rowsPerPage)
+    const rowsPerPage =  parseInt(event.target.value) || 10;
     this.setState({rowsPerPage});
+    this.props.getExpenses(0,rowsPerPage);
   };
 }
 
