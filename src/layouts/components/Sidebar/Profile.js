@@ -1,6 +1,7 @@
 import React from 'react'
 import { Avatar, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles'
+import {connect} from 'react-redux'
 
 const styles = theme => ({
     root:{
@@ -22,14 +23,19 @@ class Profile extends React.Component{
         const { classes } = this.props;
         return(
             <div className={classes.root}>
-                <Avatar className = {classes.avatar}>
+                <Avatar className = {classes.avatar} alt={this.props.userProfile.imageAltText} src={this.props.userProfile.imageUrl}>
 
                 </Avatar>
                 <Typography variant="h6" className={classes.name}>
-                    Karthik Uppala
+                    {this.props.userProfile.name}
                 </Typography>
             </div>
         );
     }
 }
-export default withStyles(styles)(Profile)
+
+function mapStateToProps(state){
+    const { userProfile} = state.expense;
+    return { userProfile };
+}
+export default withStyles(styles)(connect(mapStateToProps,{})((Profile)))

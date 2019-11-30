@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {Router,Route,Redirect,Switch} from 'react-router-dom'
 import { ThemeProvider } from '@material-ui/styles';
+import { connect } from 'react-redux'
+import { getUserProfile } from '../actions/expenseActions'
 
 
 import '../assets/styles/Common.css';
@@ -19,7 +21,16 @@ import Expenses from './Expenses/Expenses';
 
 
 class App extends Component {
+
+
+	componentDidMount() {
+		console.log("Invoked")
+		if(!(Object.getOwnPropertyNames(this.props.userProfile) > 0)){
+			this.props.getUserProfile();
+		}
+	  }
 	render() {
+		console.log(this.props)
 		return(
 			<ThemeProvider theme={theme}>
 				<CssBaseline></CssBaseline>
@@ -39,5 +50,9 @@ class App extends Component {
 	}
 
 }
-
-export default App;
+function mapToStateToProps(state){
+	console.log(state)
+	const { userProfile } = state.expense;
+	return {userProfile}
+}
+export default connect(mapToStateToProps,{getUserProfile})(App);

@@ -58,3 +58,26 @@ function getLocalStorage() {
     else
         return "";
 }
+
+
+export const uploadProfilePicture = (file) =>{
+    return dispatch => {
+        expenseService.uploadProfilePicture(file).then( response =>{
+            console.log(response);
+            dispatch( displaySnackBar("success", response.data.message))
+        } , 
+        error => {
+    
+        })
+    }
+}
+
+export const getUserProfile = () =>{
+    return dispatch =>{
+        expenseService.getUserProfile().then( response => {
+            dispatch({type:userConstants.SAVE_USER_PROFILE, data :response.data})
+        },error =>{
+            //TODO handle error
+        })
+    }
+}

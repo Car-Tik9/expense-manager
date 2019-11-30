@@ -2,7 +2,7 @@ import expenseMangerAPI from '../api/expenseManagerAPI'
 export const userService ={
     login,
     register,
-    logout
+    logout,
 }
 const axiosConfig = {
     headers: {

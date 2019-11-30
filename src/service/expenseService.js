@@ -2,7 +2,9 @@ import expenseMangerAPI from '../api/expenseManagerAPI'
 import expenseManagerAPI from '../api/expenseManagerAPI';
 export const expenseService = {
     saveExpense,
-    getExpenses
+    getExpenses,
+    uploadProfilePicture,
+    getUserProfile
 }
 
 
@@ -27,12 +29,33 @@ function saveExpense(expense) {
     }).catch(handleErrorCodes);
 }
 
+function getUserProfile(){
+    return expenseMangerAPI.post('/user/getUserProfile',{},axiosConfig).then(response =>{
+        return response;
+    }).catch();
+}
 
 function getExpenses(page,rowsPerPage){ 
     return expenseManagerAPI.post('/getExpenses',{"page":page,"size":rowsPerPage},axiosConfig).then(response => {
         return response.data;
     }).catch(); 
 }
+
+const axiosConfigFileUpload = {
+    headers: {
+        "Authorization": getLocalStorage().tokenType + " " + getLocalStorage().accessToken
+    }
+};
+function uploadProfilePicture( file ){
+    const formdata = new FormData();
+    formdata.append('file',file);
+    return expenseManagerAPI.post('/user/uploadProfilePicture',formdata,axiosConfigFileUpload).then(response => {
+        return response;
+    }).catch( () =>{
+        //TODO Handle errors 
+    })
+}
+
 function handleErrorCodes(errrorResponse) {
     const errorData = errrorResponse.response && errrorResponse.response.data;
     if (errrorResponse.response.status === 400) {

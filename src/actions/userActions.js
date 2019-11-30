@@ -1,6 +1,7 @@
 import { userService } from '../service'
 import { history } from '../helpers'
 import { userConstants } from '../constants'
+import { displaySnackBar } from './snackBarActions'
 
 export const login = (username,password) =>{
     return dispatch => {

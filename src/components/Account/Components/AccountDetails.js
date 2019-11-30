@@ -1,7 +1,8 @@
 import React from 'react'
 import { Card, CardHeader, CardContent, Grid, Divider, TextField, CardActions, Button, Avatar, Typography } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
-
+import {uploadProfilePicture } from '../../../actions/expenseActions'
+import {connect} from 'react-redux'
 const style  = theme =>({
     avatar :{
         marginLeft : 'auto',
@@ -10,31 +11,9 @@ const style  = theme =>({
     },
 });
 class AccountDetails extends React.Component{
-   constructor(){
-        super();
-        this.state = {
-            avatar_Alt : '',
-			avatar_Src: '',
-			fileName: ''
-        }
-   }
-
+    
    handleChangeFile = (e) => {
-
-		//FileName
-		this.setState({
-			fileName: e.target.files[0].name
-		})
-		
-		//File URL using FileReader API
-	   	const fileReader = new FileReader();
-		fileReader.onload = (e) => {
-			this.setState({
-				avatar_Src: e.target.result
-			})
-		}
-
-		fileReader.readAsDataURL(e.target.files[0]);
+        this.props.uploadProfilePicture(e.target.files[0]);
    }
     
     render(){
@@ -45,12 +24,12 @@ class AccountDetails extends React.Component{
                 disableTypography = {true} 
                 title = {
                     <Typography variant="h5">
-                        Karthik Uppala
+                        {this.props.userProfile.name}
                     </Typography>
                 }
                 subheader ="Check and update the corresponding details"
                 avatar = {
-                    <Avatar className ={classes.avatar} alt={this.state.avatar_Alt} src={this.state.avatar_Src}>
+                    <Avatar className ={classes.avatar} alt={this.props.userProfile.imageAltText} src={this.props.userProfile.imageUrl}>
 
                     </Avatar>
                 }>
@@ -109,4 +88,9 @@ class AccountDetails extends React.Component{
     }
 }
 
-export default withStyles(style)(AccountDetails)
+
+function mapStateToProps(state){
+    const { userProfile }  = state.expense;
+    return { userProfile }
+}
+export default withStyles(style)(connect(mapStateToProps,{uploadProfilePicture})(AccountDetails))
