@@ -65,6 +65,7 @@ export const uploadProfilePicture = (file) =>{
         expenseService.uploadProfilePicture(file).then( response =>{
             console.log(response);
             dispatch( displaySnackBar("success", response.data.message))
+            dispatch( {type:userConstants.UPDATE_IMAGE_URL,url:response.data.imageUrl})
         } , 
         error => {
     
