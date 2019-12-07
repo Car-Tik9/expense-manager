@@ -12,6 +12,8 @@ export function expense(state = initialstate, action) {
             return {...state , expenses: action.data}
         case userConstants.SAVE_USER_PROFILE:
             return {...state , userProfile:action.data}
+        case userConstants.UPDATE_IMAGE_URL:
+            return {...state, userProfile:{...state.userProfile,imageUrl:action.url}}
         default:
             return state
     }
