@@ -44,6 +44,7 @@ class AccountDetails extends React.Component{
                             name="name"
                             margin="dense"
                             variant="outlined"
+                            value={this.props.userProfile.name}
                             ></TextField>
                         </Grid>
                         <Grid item md ={6} xs ={12}>
@@ -53,6 +54,7 @@ class AccountDetails extends React.Component{
                             name="userName"
                             margin="dense"
                             variant="outlined"
+                            value={this.props.userProfile.username}
                             ></TextField>
                         </Grid>
                         <Grid item md ={6} xs ={12}>
@@ -62,6 +64,7 @@ class AccountDetails extends React.Component{
                             name="email"
                             margin="dense"
                             variant="outlined"
+                            value={this.props.userProfile.emailId}
                             ></TextField>
                         </Grid>
                     </Grid>
