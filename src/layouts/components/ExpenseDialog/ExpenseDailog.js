@@ -97,7 +97,6 @@ class ExpenseDialog extends React.Component {
     }
 
     handleDateClick = dateOfTransaction  => {
-        console.log(dateOfTransaction)
         this.setState( previousState => ({
             expense:{
                 ...previousState.expense,

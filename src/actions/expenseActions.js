@@ -23,9 +23,9 @@ export const saveExpense = (expense) =>{
     function failure(error) { return { type: userConstants.EXPENSE_ERROR, error } }
 }
 
-export const getExpenses = (page,rowsPerPage) =>{
+export const getExpenses = (page,rowsPerPage,filterData) =>{
     return dispatch => {
-        expenseService.getExpenses(page,rowsPerPage).then( response => {
+        expenseService.getExpenses(page,rowsPerPage,filterData).then( response => {
         dispatch({type:userConstants.EXPENSE_DATA_FROM,data:response})
         }, error => {
             console.log(error)
@@ -81,4 +81,19 @@ export const getUserProfile = () =>{
             //TODO handle error
         })
     }
+}
+
+export const filterClick = (filterData) => {
+    return dispatch => {
+       // dispatch({type:userConstants.FILTER_DATA_SAVE, data: filterData})
+       if(filterData.dateOfTransaction){
+           filterData.transactionDate = filterData.dateOfTransaction.toLocaleDateString();
+       }
+        expenseService.getExpenses(0,10,filterData).then (response =>{
+            dispatch({type:userConstants.EXPENSE_DATA_FROM,data:response})
+        }, error =>{
+            //TODO Handle error 
+        })
+    }
+
 }

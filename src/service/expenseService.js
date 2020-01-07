@@ -35,8 +35,8 @@ function getUserProfile(){
     }).catch();
 }
 
-function getExpenses(page,rowsPerPage){ 
-    return expenseManagerAPI.post('/getExpenses',{"page":page,"size":rowsPerPage},axiosConfig).then(response => {
+function getExpenses(page,rowsPerPage,filterData){ 
+    return expenseManagerAPI.post('/getExpenses',{"page":page,"size":rowsPerPage,"filterData":filterData},axiosConfig).then(response => {
         return response.data;
     }).catch(); 
 }

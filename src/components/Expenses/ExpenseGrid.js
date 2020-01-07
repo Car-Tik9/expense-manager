@@ -50,7 +50,7 @@ const categoryIcon = {
 class ExpenseGrid extends React.Component {
   state = { page:0,rowsPerPage : 10}
   componentDidMount() {
-    this.props.getExpenses(0,this.state.rowsPerPage);
+    this.props.getExpenses(0,this.state.rowsPerPage,{});
   }
   render() {
     const { classes, expenseData } = this.props;
@@ -109,14 +109,14 @@ class ExpenseGrid extends React.Component {
   }
 
   handleChangePage = (event,page) => {
-    this.props.getExpenses(page,this.state.rowsPerPage);
+    this.props.getExpenses(page,this.state.rowsPerPage,{});
     this.setState({page});
   };
 
   handleChangeRowsPerPage = event => {
     const rowsPerPage =  parseInt(event.target.value) || 10;
     this.setState({rowsPerPage});
-    this.props.getExpenses(0,rowsPerPage);
+    this.props.getExpenses(0,rowsPerPage,{});
   };
 }
 
