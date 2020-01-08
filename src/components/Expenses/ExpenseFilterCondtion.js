@@ -41,7 +41,7 @@ const transactionDataList = [{key : 0 , value : 'IMPS'}, {key : 1, value: 'NETBA
 
 const categoryList = [
   {
-      label: 'Food',
+      label: 'FOOD',
       id:1
   },
   {
@@ -65,21 +65,23 @@ const categoryList = [
       id:6
   },
 ];
+const filterData = {
+  dateOfTransaction: null,
+  transactionTypeList: [],
+  categoryTypeList: [],
+  cdList:[],
+  amount:""
+}
 class ExpenseFilterCondtion extends React.Component {
+  
   state = {
-    filterData: {
-      dateOfTransaction: null,
-      transactionTypeList: [],
-      categoryTypeList: [],
-      cdList:[],
-      amount:""
-    }
+    filterData
   };
 
   handleDateClick = dateOfTransaction => {
     this.setState(previousState => ({
       filterData: {
-        ...previousState.filerData,
+        ...previousState.filterData,
         dateOfTransaction
       }
     }));
@@ -122,18 +124,18 @@ class ExpenseFilterCondtion extends React.Component {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <Grid container spacing={2}>
-              <Grid item xs={2}>
+              <Grid item xs={3}>
                 <Grid container spacing={1}>
                   <Grid item xs={12}>
                     <FormControl component="fieldset">
                       <FormLabel component="legend">Credit Or Debit</FormLabel>
                       <FormGroup>
                         <FormControlLabel
-                          control={<Checkbox  onChange = {e => this.handleCategoryCheck(e,'CREDITED','cdList') }/>}
+                          control={<Checkbox  checked ={this.state.filterData.cdList.includes('1')}onChange = {e => this.handleCategoryCheck(e,'1','cdList') }/>}
                           label="Credited"
                         />
                         <FormControlLabel
-                          control={<Checkbox onChange = {e => this.handleCategoryCheck(e,'DEBITED','cdList') }/>}
+                          control={<Checkbox checked ={this.state.filterData.cdList.includes('0')} onChange = {e => this.handleCategoryCheck(e,'0','cdList') }/>}
                           label="Debited"
                         />
                       </FormGroup>
@@ -145,7 +147,7 @@ class ExpenseFilterCondtion extends React.Component {
                         margin="normal"
                         id="date"
                         format="MM/dd/yyyy"
-                        label="Date of Expense Done"
+                        label="Expense Done Date"
                         value={this.state.filterData.dateOfTransaction}
                         onChange={this.handleDateClick}
                       />
@@ -159,6 +161,7 @@ class ExpenseFilterCondtion extends React.Component {
                       label="Amount"
                       variant="outlined"
                       type="number"
+                      value = {this.state.filterData.amount}
                       InputProps={{
                         startAdornment: <InputAdornment>₹</InputAdornment>
                       }}
@@ -175,7 +178,7 @@ class ExpenseFilterCondtion extends React.Component {
                           transactionDataList.map(transactionType => (
                             <FormControlLabel
                             label= {transactionType.value}
-                            control={<Checkbox onChange = {e => this.handleCategoryCheck(e,transactionType.value,'transactionTypeList') }/>}
+                            control={<Checkbox checked = {this.state.filterData.transactionTypeList.includes(transactionType.value)}onChange = {e => this.handleCategoryCheck(e,transactionType.value,'transactionTypeList') }/>}
                               ></FormControlLabel>
                           ))
                         }
@@ -190,7 +193,7 @@ class ExpenseFilterCondtion extends React.Component {
                           categoryList.map(category => (
                             <FormControlLabel
                             label= {category.label}
-                            control={<Checkbox onChange={ e => this.handleCategoryCheck(e,category.label,'categoryTypeList')} value={category.label}/>}
+                            control={<Checkbox checked = {this.state.filterData.categoryTypeList.includes(category.label)}onChange={ e => this.handleCategoryCheck(e,category.label,'categoryTypeList')} value={category.label}/>}
                               ></FormControlLabel>
                           ))
                         }
@@ -200,7 +203,7 @@ class ExpenseFilterCondtion extends React.Component {
             </Grid>
           </ExpansionPanelDetails>
           <ExpansionPanelActions>
-            <Button size="small">Clear</Button>
+            <Button size="small" onClick = {this.handleClearClick}>Clear</Button>
             <Button
               size="small"
               color="primary"
@@ -215,12 +218,12 @@ class ExpenseFilterCondtion extends React.Component {
   }
 
   handleFilterClick = event => {
-    console.log(this.state.filterData)
-    if(this.state.filterClick.dateOfTransaction){
-      
-    }
     this.props.filterClick(this.state.filterData);
   };
+  handleClearClick = () =>{
+    this.setState({filterData:filterData});
+    this.props.filterClick(this.state.filterData);
+  }
 }
 
 function mapStateToProps(state) {

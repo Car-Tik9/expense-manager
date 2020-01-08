@@ -18,6 +18,8 @@ import TravelIcon from '@material-ui/icons/CardTravel'
 import EntertainmentIcon from '@material-ui/icons/Theaters'
 import HospitalIcon from '@material-ui/icons/LocalHospital'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
+import CreditIcon from '@material-ui/icons/ArrowDownward'
+import DebitIcon from '@material-ui/icons/ArrowUpward'
 import { withStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 import { getExpenses } from "../../actions/expenseActions";
@@ -47,6 +49,10 @@ const categoryIcon = {
   MEDICAL : <HospitalIcon></HospitalIcon>,
   OTHER : <AddCircleIcon></AddCircleIcon>
 };
+const creditDebitIcon = {
+  0: <DebitIcon></DebitIcon>,
+  1:<CreditIcon></CreditIcon>
+}
 class ExpenseGrid extends React.Component {
   state = { page:0,rowsPerPage : 10}
   componentDidMount() {
@@ -70,6 +76,7 @@ class ExpenseGrid extends React.Component {
                 <TableRow>
                   <TableCell>Date</TableCell>
                   <TableCell>Amount</TableCell>
+                  <TableCell>Credit/Debit</TableCell>
                   <TableCell>Mode</TableCell>
                   <TableCell>Remarks</TableCell>
                   <TableCell>Category</TableCell>
@@ -80,6 +87,7 @@ class ExpenseGrid extends React.Component {
                   <TableRow hover key={expense.transactionId}>
                     <TableCell>{expense.date}</TableCell>
                     <TableCell>{expense.amount}</TableCell>
+                    <TableCell>{creditDebitIcon[expense.cdDiv]}</TableCell>
                     <TableCell>{expense.mode}</TableCell>
                     <TableCell>{expense.notes}</TableCell>
                     <TableCell>{categoryIcon[expense.category]}</TableCell>
